@@ -10,6 +10,7 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 out = cv2.VideoWriter('otter_out26-4_test.avi', fourcc, fps, (640,480))
 print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
 i = 0
 while(cap.isOpened()):
     i += 1

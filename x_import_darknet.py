@@ -7,10 +7,10 @@ print("complete")
 import cv2, numpy as np
 from ctypes import *
 
-net = darknet.load_net(b"C:/Users/user/anaconda3/Lib/site-packages/darknet/cfg/my_yolov3_test.cfg", 
-                       b"C:/Users/user/anaconda3/Lib/site-packages/darknet/weight/yolov3_final.weights", 0) 
-meta = darknet.load_meta(b"C:/Users/user/anaconda3/Lib/site-packages/darknet/data/traffic_cone.data") 
-cap = cv2.VideoCapture("C:/Users/user/anaconda3/Lib/site-packages/darknet/26-traffic_cone/2.mov") 
+net = darknet.load_net(b"C:/Users/user/anaconda3/Lib/site-packages/darknet/cfg/my_yolov4_traffic_cone_gen.cfg", 
+                       b"C:/Users/user/anaconda3/Lib/site-packages/darknet/backup/traffic_cone_gen/my_yolov4_traffic_cone_gen_final.weights", 0) 
+meta = darknet.load_meta(b"C:/Users/user/anaconda3/Lib/site-packages/darknet/data/traffic_cone_gen.data") 
+cap = cv2.VideoCapture("C:/Users/user/anaconda3/Lib/site-packages/darknet/data/traffic_cone/1.mov") 
 
 print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -52,3 +52,5 @@ while(cap.isOpened()):
         break
 
 cap.release()
+
+

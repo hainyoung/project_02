@@ -7,10 +7,10 @@ print("complete")
 import cv2, numpy as np
 from ctypes import *
 
-net = darknet.load_net(b"C:/darknet-master/darknet-master/build/darknet/x64/data/580_test.cfg", 
-                       b"C:/darknet-master/darknet-master/build/darknet/x64/backup/cone_580/yolov4-obj_best.weights", 0) 
-meta = darknet.load_meta(b"C:/darknet-master/darknet-master/build/darknet/x64/data/580_cone.data") 
-cap = cv2.VideoCapture("C:/darknet-master/darknet-master/build/darknet/x64/data/traffic_cone/1.mov") 
+net = darknet.load_net(b"C:/darknet-master/darknet-master/build/darknet/x64/data/3classes_train_obj.cfg", 
+                       b"C:/darknet-master/darknet-master/build/darknet/x64/backup/backup1112_4600/yolov4-obj_best.weights", 0) 
+meta = darknet.load_meta(b"C:/darknet-master/darknet-master/build/darknet/x64/data/3_classes.data") 
+cap = cv2.VideoCapture("C:/darknet-master/darknet-master/build/darknet/x64/data/3classes/test_2.mp4") 
 
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -18,6 +18,8 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 
 # print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 # print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+delay = round(1000/fps)
 
 i = 0
 while(cap.isOpened()):
@@ -29,6 +31,8 @@ while(cap.isOpened()):
         break 
     frame = darknet.nparray_to_image(image)
     r = darknet.detect_image(net, meta, frame, thresh = .5, hier_thresh=.5, nms=.45, debug=False)
+
+    # print(fps)
     # print(r)
 
     boxes = [] 
@@ -53,10 +57,21 @@ while(cap.isOpened()):
         right = min(image.shape[1], np.floor(x + w + 0.5).astype(int)) 
         bottom = min(image.shape[0], np.floor(y + h + 0.5).astype(int)) 
 
-        if texts.decode('utf-8') == 'traffic_cone':
+        if texts.decode('utf-8') == 'traffic cone':
             cv2.rectangle(image, (top, left), (right, bottom), (255, 0, 0), 2)
             # cv2.putText(image, texts.decode('utf-8') + '(' + str(threshs*100)[:5] + '%)', (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0))
-            cv2.putText(image, texts.decode('utf-8'), (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0))
+            cv2.putText(image, texts.decode('utf-8'), (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), thickness=2)
+
+        elif texts.decode('utf-8') == 'traffic bollard':
+            cv2.rectangle(image, (top, left), (right, bottom), (0, 255, 0), 2)
+            # cv2.putText(image, texts.decode('utf-8') + '(' + str(threshs*100)[:5] + '%)', (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0))
+            cv2.putText(image, texts.decode('utf-8'), (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), thickness=2)
+
+        elif texts.decode('utf-8') == 'traffic barrel':
+            cv2.rectangle(image, (top, left), (right, bottom), (0, 0, 255), 2)
+            # cv2.putText(image, texts.decode('utf-8') + '(' + str(threshs*100)[:5] + '%)', (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0))
+            cv2.putText(image, texts.decode('utf-8'), (top, left-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), thickness=2)
+
 
         # cv2.rectangle(image, (top, left), (right, bottom), (255, 0, 0), 2) 
         # cv2.line(image, (top + int(w / 2), left), (top + int(w / 2), left + int(h)), (0,255,0), 3) 
@@ -67,7 +82,8 @@ while(cap.isOpened()):
     # out.write(image)
     darknet.free_image(frame)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'): 
+    # if cv2.waitKey(1) & 0xFF == 27: 
+    if cv2.waitKey(0) == 27: 
         break
 
 cap.release()

@@ -13,11 +13,13 @@ import sys
 
 #         print(file_list)
 
-sys.stdout = open('3classes_train.txt', 'a')
-open = ('./3classes_train.txt', 'a')
+sys.stdout = open('1117_test.txt', 'a')
+open = ('./1117_test.txt', 'a')
 
-main_file_path = 'C:/darknet-master/darknet-master/build/darknet/x64/data/3classes/dataset/obj'
+# main_file_path = 'C:/darknet-master/darknet-master/build/darknet/x64/data/1117/obj'
+main_file_path = 'C:/darknet-master/darknet-master/build/darknet/x64/data/1117/test'
 
 for m in os.listdir(main_file_path) :
     if m[-3:] == 'jpg' :
-        print('C:/darknet-master/darknet-master/build/darknet/x64/data/3classes/dataset/obj/' + m)
+        # print('C:/darknet-master/darknet-master/build/darknet/x64/data/1117/obj/' + m)
+        print('C:/darknet-master/darknet-master/build/darknet/x64/data/1117/test/' + m)

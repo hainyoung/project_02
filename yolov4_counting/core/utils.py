@@ -230,7 +230,12 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
 
     out_boxes, out_scores, out_classes, num_boxes = bboxes
 
-    or_date = datetime.datetime(2020, 11, 16, 16, 45, 58)   
+    my_lines = []
+    with open("./suwon_1116.txt", "r") as file :
+        for line in file :
+            my_lines.append(line)
+        loc = my_lines[3][:]
+        loc = loc.strip()
 
     for i in range(num_boxes):
         if int(out_classes[i]) < 0 or int(out_classes[i]) > num_classes: continue
@@ -254,30 +259,11 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
             bbox_thick = int(0.6 * (image_h + image_w) / 600)
             c1, c2 = (coor[0], coor[1]), (coor[2], coor[3])
             cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
-    
 
             if info:
                 tip_xmin = int(coor[0] + ((coor[2]-coor[0]))/2)
                 tip_ymin = int(coor[1] + ((coor[3]-coor[1])))
-                # tip_xmin = int(coor[0] + ((coor[2]-coor[0]))/2 - 1)
-                # tip_ymin = int(coor[1] + ((coor[3]-coor[1])) - 1)
-                # tip_xmax = int(tip_xmin + 2)
-                # tip_ymax = int(tip_xmin + 2)
-                my_lines = []
-                with open("./suwon.txt", "r") as file:
-                    for line in file:
-                        my_lines.append(line)
-                loc = my_lines[7][:]
-                # year = my_lines[2][1:5] 
-                # month = my_lines[2][6:8]
-                # day = my_lines[2][9:11]
-                # hour = my_lines[2][12:14]
-                # minute = my_lines[2][15:17]
-                # second = my_lines[2][18:20]
-                # print(year + " "+ " " + month +" " + day+ " " + hour +" "+  minute + " " + second)  
-                # int_second = int(second)
-                # print("INT SECOND" + second)
-                # or_date = datetime.now()
+
                 '''
                 # freezer = freeze_time("2012-01-14 12:00:01")
                 # freezer.start()
@@ -322,7 +308,7 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
 
                 # print("Object found: {}, Confidence: {:.2f},Tip_Coords: {}, {} ".format(class_name, score, tip_xmin, tip_ymin))
                 # print("Current time: {}, Object found: {}, Confidence: {:.2f},Tip_Coords: {}, {} ".format(or_date,class_name, score, tip_xmin, tip_ymin))
-                print("location: {}, Object found: {}, Confidence: {:.2f}, Tip_Coords: {}, {} ".format(loc, class_name, score, tip_xmin, tip_ymin))
+                print("Location: {}, Object found: {}, Confidence: {:.2f}, Tip_Coords: {}, {} ".format(loc, class_name, score, tip_xmin, tip_ymin))
                
 
             if show_label:
@@ -342,7 +328,6 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
                             cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (102,255,255), 2)
                     offset += height_ratio
 
-        or_date += datetime.timedelta(seconds=1.0) 
     return image
 
 def bbox_iou(bboxes1, bboxes2):

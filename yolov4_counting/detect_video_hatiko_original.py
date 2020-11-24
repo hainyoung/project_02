@@ -19,6 +19,7 @@ import numpy as np
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 import re
+import time, datetime
 
 
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
@@ -83,6 +84,20 @@ def main(_argv):
         out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
     
     frame_num = 0
+
+
+    lines = []
+    with open("./suwon_1116.txt", "r") as file:
+        for line in file :
+            lines.append(line)
+        year = int(lines[2][1:5]) 
+        month = int(lines[2][6:8])
+        day = int(lines[2][9:11])
+        hour = int(lines[2][12:14])
+        minute = int(lines[2][15:17])
+        second = int(lines[2][18:20])
+        rtime = datetime.datetime(year, month, day, hour, minute, second)    
+
     while True:
         # return_value, frame_1 = vid.read()
         return_value, frame = vid.read()
@@ -100,7 +115,6 @@ def main(_argv):
         # cv2.line(frame,(1124,197),(1907,850),(255,0,0),2)
         # cv2.line(frame,(209, 1040),(1907,850),(255,0,0),2)
 
-
         if return_value:
             frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)  #rotate the video for mobile videos
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -109,8 +123,10 @@ def main(_argv):
         else:
             print('Video has ended or failed, try a different video format!')
             break
-        if frame_num%25== 0:
-    
+        if frame_num%1== 0:
+
+            print("Current Time :", rtime)
+
             frame_size = frame.shape[:2]
             image_data = cv2.resize(frame, (input_size, input_size))
             image_data = image_data / 255.
@@ -182,9 +198,9 @@ def main(_argv):
             if FLAGS.count:
                 # count objects found
                 counted_classes = count_objects(pred_bbox, by_class = True, allowed_classes=allowed_classes)
-                # loop through dict and print
-                for key, value in counted_classes.items():
-                    print("Number of {}s: {}".format(key, value),end = " ,")
+                # # loop through dict and print
+                # for key, value in counted_classes.items():
+                #     print("Number of {}s: {}".format(key, value),end = " ,")
                 image = utils.draw_bbox(frame, pred_bbox, FLAGS.info, counted_classes, allowed_classes=allowed_classes, read_plate=FLAGS.plate)
             else:
                 image = utils.draw_bbox(frame, pred_bbox, FLAGS.info, allowed_classes=allowed_classes, read_plate=FLAGS.plate)
@@ -202,7 +218,9 @@ def main(_argv):
             if FLAGS.output:
                 out.write(result)
             if cv2.waitKey(1) & 0xFF == ord('q'): break
-   
+
+            rtime += datetime.timedelta(seconds=1.0)
+
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':

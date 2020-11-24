@@ -28,7 +28,6 @@ tmp = np.array([[(145, 848)]])
 area_0 = np.array([[(8, 1045), (8, 718), (573, 718), (200, 1045), (8, 1045)]])
 area_2 = np.array([[(8, 718), (425, 588), (722, 588), (573, 718), (8, 718)]])
 
-print(area_0.shape)
 
 # img = cv2.polylines(image, [area_0, area_2], True, green, 1)
 
@@ -37,6 +36,6 @@ print(area_0.shape)
 # else :
 #     print("nothing")
 
-# cv2.imshow('polylines', img)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+cv2.imshow('polylines', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

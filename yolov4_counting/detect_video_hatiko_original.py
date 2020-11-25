@@ -125,7 +125,6 @@ def main(_argv):
             break
         if frame_num%1== 0:
 
-            print("Current Time :", rtime)
 
             frame_size = frame.shape[:2]
             image_data = cv2.resize(frame, (input_size, input_size))
@@ -195,6 +194,9 @@ def main(_argv):
                 else:
                     pass
 
+            print("Current Time :", rtime)
+            
+
             if FLAGS.count:
                 # count objects found
                 counted_classes = count_objects(pred_bbox, by_class = True, allowed_classes=allowed_classes)
@@ -208,6 +210,7 @@ def main(_argv):
 
             # fps = 1.0 / (time.time() - start_time)
             # print("FPS: %.2f" % fps)
+            
             result = np.asarray(image)
             cv2.namedWindow("result", cv2.WINDOW_AUTOSIZE)
             result = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)

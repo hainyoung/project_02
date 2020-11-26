@@ -3,8 +3,8 @@ import cv2
 import sys
 
 def date_time_recognizer(image,x,y,h,w):
-    samples_dt = np.loadtxt('./suwon_generalsamples.data', np.float32)
-    responses_dt = np.loadtxt('./suwon_generalresponses.data', np.float32)
+    samples_dt = np.loadtxt('./model/suwon_generalsamples.data', np.float32)
+    responses_dt = np.loadtxt('./model/suwon_generalresponses.data', np.float32)
     responses_dt = responses_dt.reshape((responses_dt.size, 1))
     model_dt = cv2.ml.KNearest_create()
     model_dt.train(samples_dt, cv2.ml.ROW_SAMPLE, responses_dt)
@@ -23,6 +23,7 @@ def date_time_recognizer(image,x,y,h,w):
     for cnt_dt in contours_dt:
         if cv2.contourArea(cnt_dt)>25:
             [x, y, w, h] = cv2.boundingRect(cnt_dt)
+            
             if  h>22:
                 cv2.rectangle(roi_dt,(x,y),(x+w,y+h),(0,255,0),2)
                 roi_date = thresh_dt[y:y+h,x:x+w]
@@ -48,8 +49,8 @@ def date_time_recognizer(image,x,y,h,w):
     return rtime           
 
 def location_recognizer(image, x, y, h, w):
-    samples_loc = np.loadtxt('./suwon_generalsamples.data', np.float32)
-    responses_loc = np.loadtxt('./suwon_generalresponses.data', np.float32)
+    samples_loc = np.loadtxt('./model/suwon_generalsamples.data', np.float32)
+    responses_loc = np.loadtxt('./model/suwon_generalresponses.data', np.float32)
     responses_loc = responses_loc.reshape((responses_loc.size, 1))
     model_loc = cv2.ml.KNearest_create()
     model_loc.train(samples_loc, cv2.ml.ROW_SAMPLE, responses_loc)
@@ -66,9 +67,11 @@ def location_recognizer(image, x, y, h, w):
     loc = []
 
     for cnt_loc in contours_loc:
-        if cv2.contourArea(cnt_loc)>25:
+        print("Area :", cv2.contourArea(cnt_loc))
+        if cv2.contourArea(cnt_loc) > 25:
             [x, y, w, h] = cv2.boundingRect(cnt_loc)
-            if  h>22:
+            print("height :",h)
+            if  h > 22 :
                 cv2.rectangle(roi_loc,(x,y),(x+w,y+h),(0,255,0),2)
                 roi_loc = thresh_loc[y:y+h,x:x+w]
                 roismall = cv2.resize(roi_loc,(10,10))
@@ -83,6 +86,6 @@ def location_recognizer(image, x, y, h, w):
                 loc.append(string_loc)
 
                 location = "".join(loc)
- 
+                location = location[::-1]
 
     return location          

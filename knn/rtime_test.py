@@ -29,7 +29,6 @@ while(cap.isOpened()):
 
         out_dt = np.zeros(roi_dt.shape, np.uint8)
         gray_dt = cv2.cvtColor(roi_dt, cv2.COLOR_BGR2GRAY)
-        # blur_dt = cv2.GaussianBlur(gray_dt, (5, 5), 0)
         kernel = np.ones((2,2), np.uint8)
         erosion = cv2.erode(gray_dt, kernel, iterations = 1)
 

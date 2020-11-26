@@ -30,8 +30,10 @@ responses = []
 keys = [i for i in range(48,58)]
 
 for cnt in contours:
+    # print(cv2.contourArea(cnt))
     if cv2.contourArea(cnt)>25:
         [x,y,w,h] = cv2.boundingRect(cnt)
+        # print(h)
 
         if  28>h>25:
             cv2.rectangle(src,(x,y),(x+w,y+h),(0,0,255),2)

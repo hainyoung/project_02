@@ -67,10 +67,10 @@ def location_recognizer(image, x, y, h, w):
     loc = []
 
     for cnt_loc in contours_loc:
-        print("Area :", cv2.contourArea(cnt_loc))
+        # print("Area :", cv2.contourArea(cnt_loc))
         if cv2.contourArea(cnt_loc) > 25:
             [x, y, w, h] = cv2.boundingRect(cnt_loc)
-            print("height :",h)
+            # print("height :",h)
             if  h > 22 :
                 cv2.rectangle(roi_loc,(x,y),(x+w,y+h),(0,255,0),2)
                 roi_loc = thresh_loc[y:y+h,x:x+w]

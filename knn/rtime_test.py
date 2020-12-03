@@ -18,8 +18,8 @@ while(cap.isOpened()):
 
         # dt = date_time_recognizer(frame, 1, 10, 308, 33)
 
-        samples_dt = np.loadtxt('./rtime_generalsamples.data', np.float32)
-        responses_dt = np.loadtxt('./rtime_generalresponses.data', np.float32)
+        samples_dt = np.loadtxt('./model/suwon_generalsamples.data', np.float32)
+        responses_dt = np.loadtxt('./model/suwon_generalresponses.data', np.float32)
         responses_dt = responses_dt.reshape(responses_dt.size, 1)
 
         model_dt = cv2.ml.KNearest_create()

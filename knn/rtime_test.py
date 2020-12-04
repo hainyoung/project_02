@@ -14,7 +14,7 @@ while(cap.isOpened()):
     if not ret :
         break
 
-    if c % 1 == 0 :
+    if c % 25 == 0 :
 
         # dt = date_time_recognizer(frame, 1, 10, 308, 33)
 
